@@ -1,25 +1,108 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup, Login, and File Upload</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="login-container">
-        <h1>Login</h1>
-        <form action="#" method="POST">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required>
-
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-
-            <button type="submit">Login</button>
-            <a href="#" class="forgot-password">Forgot Password?</a>
-        </form>
+  <div class="container">
+    <!-- Signup Section -->
+    <div id="signup-section" class="card">
+      <h2>Signup</h2>
+      <form id="signup-form">
+        <label for="signup-username">Username</label>
+        <input type="text" id="signup-username" name="signup-username" required>
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" name="signup-password" required>
+        <button type="submit" class="btn">Signup</button>
+      </form>
     </div>
+
+    <!-- Login Section -->
+    <div id="login-section" class="card hidden">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" name="login-username" required>
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="login-password" required>
+        <button type="submit" class="btn">Login</button>
+      </form>
+    </div>
+
+    <!-- File Upload Section -->
+    <div id="upload-section" class="card hidden">
+      <h2>Upload Files</h2>
+      <form id="upload-form">
+        <label for="file-upload">Select File</label>
+        <input type="file" id="file-upload" name="file-upload" required>
+        <button type="submit" class="btn">Upload</button>
+      </form>
+      <h2>
+        <button id="logout-btn" class="btn logout">Logout</button>
+      </h2>
+    </div>
+
+  </div>
+
+  <script>
+    const signupSection = document.getElementById('signup-section');
+    const loginSection = document.getElementById('login-section');
+    const uploadSection = document.getElementById('upload-section');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    let users = {}; // Store user credentials
+
+    // Signup form submission
+    document.getElementById('signup-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const username = document.getElementById('signup-username').value;
+      const password = document.getElementById('signup-password').value;
+
+      if (users[username]) {
+        alert('Username already exists. Please choose another.');
+      } else {
+        users[username] = password;
+        alert('Signup successful! Please log in.');
+        signupSection.classList.add('hidden');
+        loginSection.classList.remove('hidden');
+      }
+    });
+
+    // Login form submission
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+
+      if (users[username] && users[username] === password) {
+        alert('Login successful!');
+        loginSection.classList.add('hidden');
+        uploadSection.classList.remove('hidden');
+      } else {
+        alert('Invalid username or password!');
+      }
+    });
+
+    // Logout button
+    logoutBtn.addEventListener('click', function () {
+      alert('Logged out successfully!');
+      uploadSection.classList.add('hidden');
+      loginSection.classList.remove('hidden');
+    });
+
+    // File upload form submission
+    document.getElementById('upload-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const file = document.getElementById('file-upload').files[0];
+      if (file) {
+        alert(`File "${file.name}" uploaded successfully!`);
+      } else {
+        alert('Please select a file to upload.');
+      }
+    });
+  </script>
 </body>
 </html>
